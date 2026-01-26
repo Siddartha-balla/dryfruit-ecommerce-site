@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Dry Fruit Shop</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style1.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fffdd0; /* Light cream background */
+            color: #333;
+        }
+
+        header {
+            background-color: #d2691e; /* Warm brownish-orange */
+            color: #fff;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .cart-table th, .cart-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .cart-table th {
+            background-color: #f4f4f4;
+            font-size: 16px;
+        }
+
+        .cart-summary {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .cart-summary p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .cart-summary button {
+            padding: 10px 20px;
+            background-color: #d2691e; /* Warm brownish-orange */
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .cart-summary button:hover {
+            background-color: #b35916; /* Slightly darker shade for hover */
+        }
+
+        .empty-cart {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #555;
+        }
+
+        footer {
+            background-color: #d2691e; /* Warm brownish-orange */
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <?php
+    session_start();
+    $isLoggedIn = isset($_SESSION['username']); // Check if the user is logged in
+    ?>
+    <header>
+        <h1>Dry Fruit Shop</h1>
+        <nav>
+            <a href="index.php">Home</a>
+            <a href="product.php">Products</a>
+            <a href="cart.php">Cart</a>
+            <?php if ($isLoggedIn): ?>
+                <a href="profile.php" style="float: right;">
+                    <i class="fa-solid fa-circle-user"></i> 
+                    <?php echo htmlspecialchars($_SESSION['name']); ?> <!-- Display user's name -->
+                </a>
+                <a href="logout.php">Logout</a>
+            <?php else: ?>
+                <a href="login.php">Login</a>
+            <?php endif; ?>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Your Cart</h2>
+        <table class="cart-table" id="cart-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </tbody>
+        </table>
+
+        <div class="cart-summary" id="cart-summary">
+            <p><strong>Subtotal:</strong> ₹<span id="subtotal">0.00</span></p>
+            <button onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Dry Fruit Shop. All rights reserved. | <a href="contact.html">Contact Us</a></p>
+    </footer>
+
+    <script>
+        // Function to render cart items
+        function renderCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItems = document.getElementById('cart-items');
+            const cartSummary = document.getElementById('cart-summary');
+            let subtotal = 0;
+
+            cartItems.innerHTML = ''; // Clear existing items
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `<tr><td colspan="6" class="empty-cart">Your cart is empty.</td></tr>`;
+                cartSummary.style.display = 'none'; // Hide summary if cart is empty
+                return;
+            }
+
+            cartSummary.style.display = 'block'; // Show summary if cart is not empty
+
+            cart.forEach((item, index) => {
+                if (item.price === null || isNaN(item.price)) {
+                    console.error(`Invalid price for item: ${item.name}`);
+                    return;
+                }
+
+                const total = (item.quantity / 1000) * item.price; // Calculate total for the item
+                subtotal += total;
+
+                cartItems.innerHTML += `
+                    <tr>
+                        <td><img src="${item.image}" alt="${item.name}" width="50"></td>
+                        <td>${item.name}</td>
+                        <td>₹${item.price}</td>
+                        <td>
+                            <input type="number" min="200" max="3000" step="100" value="${item.quantity}" 
+                                onchange="updateQuantity(${index}, this.value)">
+                        </td>
+                        <td>₹${total.toFixed(2)}</td>
+                        <td><button onclick="removeItem(${index})">Remove</button></td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+        }
+
+        // Function to update quantity
+        function updateQuantity(index, quantity) {
+            quantity = parseInt(quantity);
+
+            // Validate quantity (minimum 200g, maximum 3000g)
+            if (isNaN(quantity) || quantity < 200 || quantity > 3000) {
+                alert('Quantity must be between 200g and 3kg (3000g).');
+                renderCart(); // Re-render the cart to reset invalid input
+                return;
+            }
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart[index].quantity = quantity; // Update the quantity for the item
+            localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart to localStorage
+            renderCart(); // Re-render the cart
+        }
+
+        // Function to remove an item from the cart
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1); // Remove the item at the specified index
+            localStorage.setItem('cart', JSON.stringify(cart)); // Save updated cart to localStorage
+            renderCart(); // Re-render the cart
+        }
+
+        // Function to proceed to checkout
+        function proceedToCheckout() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add items before proceeding to checkout.');
+                return;
+            }
+            window.location.href = 'checkout.php'; // Redirect to the checkout page
+        }
+
+        // Render the cart on page load
+        renderCart();
+    </script>
+</body>
+</html>

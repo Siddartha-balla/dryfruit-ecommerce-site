@@ -1,0 +1,7 @@
+<?php
+// filepath: c:\xampp\htdocs\newCode\logout.php
+session_start();
+session_destroy(); // Destroy all session data
+header("Location:index.php"); // Redirect to the home page
+exit;
+?>
