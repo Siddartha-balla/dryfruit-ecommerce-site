@@ -1,12 +1,13 @@
-# 🥜 Local Dry Fruits – Online Dry Fruits Reservation & E-Commerce System
+# Local Dry Fruits – Online Dry Fruits Reservation & E-Commerce System
 
-🔗 **Live Website:**
-👉 [https://localdryfruits.42web.io/](https://localdryfruits.42web.io/)
-👉 **Shopkeeper Login:** [https://localdryfruits.42web.io/shopkeeper/shoplogin.php](https://localdryfruits.42web.io/shopkeeper/shoplogin.php)
+ **Live Website:**
+ [https://localdryfruits.42web.io/](https://localdryfruits.42web.io/)
+ 
+ **Shopkeeper Login:** [https://localdryfruits.42web.io/shopkeeper/shoplogin.php](https://localdryfruits.42web.io/shopkeeper/shoplogin.php)
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 **Local Dry Fruits** is a full-stack e-commerce web application designed to connect **customers** with **local dry fruit shopkeepers**.
 Customers can browse, reserve, and order dry fruits online, while shopkeepers can manage products, stock, and orders through a dedicated dashboard.
@@ -15,9 +16,9 @@ This project focuses on **supporting local businesses** while providing a smooth
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
-### 👤 Customer Module
+###  Customer Module
 
 * User registration & login
 * Browse dry fruits with images and prices
@@ -28,7 +29,7 @@ This project focuses on **supporting local businesses** while providing a smooth
 
 ---
 
-### 🏪 Shopkeeper Module
+### Shopkeeper Module
 
 * Secure shopkeeper login
 * Add, edit, and delete products
@@ -39,7 +40,7 @@ This project focuses on **supporting local businesses** while providing a smooth
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 ### Frontend
 
@@ -64,7 +65,7 @@ This project focuses on **supporting local businesses** while providing a smooth
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 dryfruitReserve/
@@ -90,7 +91,7 @@ dryfruitReserve/
 
 ---
 
-## 🔐 Authentication
+## Authentication
 
 * Separate login systems for **Customers** and **Shopkeepers**
 * Session-based authentication using PHP
@@ -98,7 +99,7 @@ dryfruitReserve/
 
 ---
 
-## 🚀 How to Run Locally
+##How to Run Locally
 
 1. Install **XAMPP**
 2. Clone this repository:
@@ -121,7 +122,7 @@ dryfruitReserve/
 
 ---
 
-## 🎯 Project Objectives
+## Project Objectives
 
 * Digitize local dry fruit shops
 * Enable easy reservation & ordering
@@ -131,7 +132,7 @@ dryfruitReserve/
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 * Online payment integration
 * Admin panel
@@ -141,15 +142,15 @@ dryfruitReserve/
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Siddartha Balla**
-B.Tech Computer Science
-📌 Full-Stack Web Development Project
+B.Tech Computer Science Engineering (Data Science)
+Full-Stack Web Development Project
 
 ---
 
-## 📄 License
+## License
 
 This project is created for **educational purposes**.
 
